@@ -1,0 +1,143 @@
+{
+  "clientes": [
+    {
+      "id": 1,
+      "nombre": "Ricardo Peña",
+      "documento": "80456123",
+      "telefono": "3001234567",
+      "email": "rpeña@gmail.com",
+      "direccion": "Cra 15 #85-32 Apto 401, Bogotá",
+      "barrio": "El Chicó",
+      "estrato": 4,
+      "fechaRegistro": "2025-04-15"
+    },
+    {
+      "id": 2,
+      "nombre": "Sandra Villamizar",
+      "documento": "52789456",
+      "telefono": "3119876543",
+      "email": "svillamizar@gmail.com",
+      "direccion": "Cl 127 #19-40 Casa 3, Bogotá",
+      "barrio": "Santa Bárbara",
+      "estrato": 4,
+      "fechaRegistro": "2025-04-17"
+    },
+    {
+      "id": 3,
+      "nombre": "Mauricio Leal",
+      "documento": "79312654",
+      "telefono": "3204561234",
+      "email": "mleal@hotmail.com",
+      "direccion": "Av 68 #22-15 Apto 201, Bogotá",
+      "barrio": "Modelia",
+      "estrato": 3,
+      "fechaRegistro": "2025-04-18"
+    },
+    {
+      "id": 4,
+      "nombre": "Gloria Herrera",
+      "documento": "41654789",
+      "telefono": "3156789012",
+      "email": "gloriah@yahoo.com",
+      "direccion": "Cra 7 #45-67 Casa, Bogotá",
+      "barrio": "La Soledad",
+      "estrato": 3,
+      "fechaRegistro": "2025-04-19"
+    },
+    {
+      "id": 5,
+      "nombre": "Iván Castellanos",
+      "documento": "80987321",
+      "telefono": "3002345678",
+      "email": "icastellanos@gmail.com",
+      "direccion": "Cl 170 #8-45 Apto 302, Bogotá",
+      "barrio": "Lisboa",
+      "estrato": 3,
+      "fechaRegistro": "2025-04-20"
+    },
+    {
+      "nombre": "prueba",
+      "documento": "efefe",
+      "telefono": "fefef",
+      "email": "juan.rodriguezv@etb.com.co",
+      "direccion": "bbvjhebrjhv#123-34",
+      "barrio": "prueba1",
+      "estrato": "3",
+      "fechaRegistro": "2026-04-27",
+      "id": 6
+    },
+    {
+      "nombre": "treter",
+      "documento": "123",
+      "telefono": "122",
+      "email": "juan.rodriguezv@etb.com.co",
+      "direccion": "bbvjhebrjhv#123-34",
+      "barrio": "prueba1",
+      "estrato": "4",
+      "fechaRegistro": "2026-04-27",
+      "id": 7
+    }
+  ],
+  "ventas": [
+    {
+      "id": 1,
+      "clienteId": 1,
+      "plan": "Fibra 300 Mb",
+      "precio": 59990,
+      "incluyeTV": false,
+      "incluyeTelefonia": false,
+      "fechaVenta": "2025-04-15",
+      "fechaInstalacion": "2025-04-22",
+      "estado": "instalado",
+      "asesor": "Diana Moreno"
+    },
+    {
+      "id": 2,
+      "clienteId": 2,
+      "plan": "Fibra 500 Mb",
+      "precio": 79990,
+      "incluyeTV": true,
+      "incluyeTelefonia": true,
+      "fechaVenta": "2025-04-17",
+      "fechaInstalacion": "2025-04-24",
+      "estado": "pendiente",
+      "asesor": "Carlos Vega"
+    },
+    {
+      "id": 3,
+      "clienteId": 3,
+      "plan": "Fibra 100 Mb",
+      "precio": 44990,
+      "incluyeTV": false,
+      "incluyeTelefonia": true,
+      "fechaVenta": "2025-04-18",
+      "fechaInstalacion": "2025-04-25",
+      "estado": "en_agenda",
+      "asesor": "Diana Moreno"
+    },
+    {
+      "id": 4,
+      "clienteId": 4,
+      "plan": "Fibra 1 Gb",
+      "precio": 109990,
+      "incluyeTV": true,
+      "incluyeTelefonia": false,
+      "fechaVenta": "2025-04-19",
+      "fechaInstalacion": "2025-04-26",
+      "estado": "pendiente",
+      "asesor": "Luis Ríos"
+    },
+    {
+      "id": 5,
+      "clienteId": 5,
+      "plan": "Fibra 300 Mb",
+      "precio": 59990,
+      "incluyeTV": false,
+      "incluyeTelefonia": false,
+      "fechaVenta": "2025-04-20",
+      "fechaInstalacion": "2025-04-27",
+      "estado": "en_agenda",
+      "asesor": "Carlos Vega"
+    }
+  ]
+}

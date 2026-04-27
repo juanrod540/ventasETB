@@ -1,0 +1,11 @@
+{
+  "name": "mock-api-modelo-b",
+  "version": "1.0.0",
+  "description": "Mock API - Sistema de Ventas FTTH Hogar ETB",
+  "scripts": {
+    "start": "json-server --watch db.json --port 3002"
+  },
+  "dependencies": {
+    "json-server": "0.17.4"
+  }
+}
