@@ -1,0 +1,239 @@
+.clientes-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 3rem 1rem;
+  font-family: 'Inter', 'Roboto', 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+}
+
+.table-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 1200px;
+  animation: slideUp 0.5s ease-out;
+  box-sizing: border-box;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.table-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #edf2f7;
+  padding-bottom: 1rem;
+}
+
+.table-title {
+  color: #2d3748;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px #edf2f7;
+}
+
+.clientes-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  background-color: white;
+}
+
+.clientes-table th,
+.clientes-table td {
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid #edf2f7;
+  color: #4a5568;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.clientes-table th {
+  background-color: #f7fafc;
+  font-weight: 600;
+  color: #2d3748;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.clientes-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.clientes-table tbody tr:hover {
+  background-color: #ebf8ff;
+}
+
+.font-medium {
+  font-weight: 600;
+  color: #2d3748 !important;
+}
+
+.estrato-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Colores para cada estrato */
+.estrato-1 { background-color: #fed7d7; color: #c53030; }
+.estrato-2 { background-color: #feebc8; color: #c05621; }
+.estrato-3 { background-color: #fefcbf; color: #b7791f; }
+.estrato-4 { background-color: #c6f6d5; color: #2f855a; }
+.estrato-5 { background-color: #b2f5ea; color: #285e61; }
+.estrato-6 { background-color: #bee3f8; color: #2b6cb0; }
+
+@media (max-width: 768px) {
+  .table-card {
+    padding: 1.5rem;
+  }
+  
+  .clientes-table th,
+  .clientes-table td {
+    padding: 1rem 0.75rem;
+  }
+}
+
+/* MODAL STYLES */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+  animation: slideUp 0.3s ease-out;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #a0aec0;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #4a5568;
+}
+
+.form-title {
+  color: #2d3748;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border-bottom: 2px solid #edf2f7;
+  padding-bottom: 1rem;
+}
+
+.clientes-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: #4a5568;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #2d3748;
+  transition: all 0.3s ease;
+  background-color: #f7fafc;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #004c8f;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(0, 76, 143, 0.2);
+}
+
+.submit-btn {
+  margin-top: 1rem;
+  padding: 1rem;
+  width: 100%;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
