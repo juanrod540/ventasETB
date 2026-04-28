@@ -17,6 +17,10 @@ Este proyecto es un portal web moderno diseñado para la gestión de ventas de f
 - **Tipografía**: Lexend (Google Fonts)
 - **Backend**: Mock API (json-server)
 
+## Requisitos
+
+- Tener instalado Node.js.
+
 ## Instalación y Uso
 
 1. **Clonar el repositorio**
