@@ -29,6 +29,7 @@ const ventasTable = () => {
   const [editOpen, setEditOpen] = useState(false);
   const [editData, setEditData] = useState({});
   const [editId, setEditId] = useState(null);
+  const [orden, setOrden] = useState('');
   const API_URL = "http://localhost:3002";
 
   useEffect(() => {
@@ -170,14 +171,28 @@ const ventasTable = () => {
                 <th>Incluye TV</th>
                 <th>Incluye Telefonía</th>
                 <th>Fecha Venta</th>
-                <th>Fecha Instalación</th>
+                <th>
+                  Fecha Instalación{' '}
+                  <select value={orden} onChange={e => setOrden(e.target.value)} style={{ fontSize: '0.8rem', padding: '2px' }}>
+                    <option value="">Sin orden</option>
+                    <option value="asc">Más próxima</option>
+                    <option value="desc">Más lejana</option>
+                  </select>
+                </th>
                 <th>Estado</th>
                 <th>Asesor</th>
                 <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {ventas.map((cargarDatos) => (
+              {[...ventas]
+                .sort((a, b) => {
+                  if (!orden) return 0;
+                  return orden === 'asc'
+                    ? new Date(a.fechaInstalacion) - new Date(b.fechaInstalacion)
+                    : new Date(b.fechaInstalacion) - new Date(a.fechaInstalacion);
+                })
+                .map((cargarDatos) => (
                 <tr key={cargarDatos.id}>
                   <td>{cargarDatos.clienteId}</td>
                   <td className="font-medium">{cargarDatos.plan}</td>

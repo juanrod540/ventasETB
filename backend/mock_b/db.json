@@ -2,10 +2,10 @@
   "clientes": [
     {
       "id": 1,
-      "nombre": "Ricardo Peña",
+      "nombre": "Ricardo Peña2",
       "documento": "80456123",
       "telefono": "3001234567",
-      "email": "rpeña@gmail.com",
+      "email": "rpena@gmail.com",
       "direccion": "Cra 15 #85-32 Apto 401, Bogotá",
       "barrio": "El Chicó",
       "estrato": 4,

@@ -15,6 +15,10 @@ const ClientesTable = () => {
     fechaRegistro: new Date().toISOString().split('T')[0]
   });
 
+  // Estado para editar
+  const [editOpen, setEditOpen] = useState(false);
+  const [editData, setEditData] = useState({});
+  const [editId, setEditId] = useState(null);
   const API_URL = "http://localhost:3002";
 
   useEffect(() => {
@@ -65,6 +69,34 @@ const ClientesTable = () => {
       console.error("Error de red:", error);
     }
   };
+  const abrirEditar = (cliente) => {
+    setEditId(cliente.id);
+    setEditData({ ...cliente });
+    setEditOpen(true);
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`${API_URL}/clientes/${editId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editData),
+      });
+      if (res.ok) {
+        const actualizado = await res.json();
+        setClientes(clientes.map(c => c.id === editId ? actualizado : c));
+        setEditOpen(false);
+      }
+    } catch (error) {
+      console.error('Error al actualizar:', error);
+    }
+  };
 
   return (
     <div className="clientes-container">
@@ -86,6 +118,7 @@ const ClientesTable = () => {
                 <th>Barrio</th>
                 <th>Estrato</th>
                 <th>Fecha Registro</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -103,6 +136,14 @@ const ClientesTable = () => {
                     </span>
                   </td>
                   <td>{cargarDatosClientes.fechaRegistro}</td>
+                  <td>
+                    <button
+                      onClick={() => abrirEditar(cargarDatosClientes)}
+                      style={{ background: '#004c8f', color: 'white', border: 'none', borderRadius: '6px', padding: '5px 10px', cursor: 'pointer' }}
+                    >
+                      Editar
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -110,7 +151,7 @@ const ClientesTable = () => {
         </div>
       </div>
 
-      {/* --- MODAL EMERGENTE --- */}
+      {/*Modal para agregar clientes*/}
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -168,6 +209,62 @@ const ClientesTable = () => {
               </div>
 
               <button type="submit" className="primary-btn submit-btn">Guardar Cliente</button>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* Modal Editar Cliente */}
+      {editOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button className="close-btn" onClick={() => setEditOpen(false)}>×</button>
+            <h2 className="form-title">Editar Cliente #{editId}</h2>
+            <form onSubmit={handleUpdate} className="clientes-form">
+              <div className="form-group">
+                <label>Nombre Completo</label>
+                <input type="text" name="nombre" value={editData.nombre || ''} onChange={handleEditChange} required />
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Documento de Identidad</label>
+                  <input type="number" name="documento" value={editData.documento || ''} onChange={handleEditChange} required />
+                </div>
+                <div className="form-group">
+                  <label>Teléfono</label>
+                  <input type="number" name="telefono" value={editData.telefono || ''} onChange={handleEditChange} required />
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Correo Electrónico</label>
+                <input type="email" name="email" value={editData.email || ''} onChange={handleEditChange} required />
+              </div>
+              <div className="form-group">
+                <label>Dirección</label>
+                <input type="text" name="direccion" value={editData.direccion || ''} onChange={handleEditChange} required />
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Barrio</label>
+                  <input type="text" name="barrio" value={editData.barrio || ''} onChange={handleEditChange} required />
+                </div>
+                <div className="form-group">
+                  <label>Estrato</label>
+                  <select name="estrato" value={editData.estrato || ''} onChange={handleEditChange} required>
+                    <option value="">Seleccione...</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                  </select>
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Fecha de Registro</label>
+                <input type="date" name="fechaRegistro" value={editData.fechaRegistro || ''} onChange={handleEditChange} required />
+              </div>
+              <button type="submit" className="primary-btn submit-btn">Actualizar Cliente</button>
             </form>
           </div>
         </div>
