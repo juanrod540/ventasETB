@@ -10,7 +10,7 @@ const ventasTable = () => {
     Precio: '',
     incluyeTV: '',
     incluyeTelefonia: '',
-    fechaVenta: '',
+    fechaVenta: new Date().toISOString().split('T')[0],
     fechaInstalacion: '',
     Estado: '',
     Asesor: '',
@@ -58,7 +58,7 @@ const ventasTable = () => {
           Precio: '',
           incluyeTV: '',
           incluyeTelefonia: '',
-          fechaVenta: '',
+          fechaVenta: new Date().toISOString().split('T')[0],
           fechaInstalacion: '',
           Estado: '',
           Asesor: '',
@@ -133,9 +133,10 @@ const ventasTable = () => {
                   <label>Plan</label>
                   <select name="Plan" value={formData.Plan} onChange={handleChange} required>
                     <option value="">Seleccione un plan...</option>
-                    <option value="Básico">Básico</option>
-                    <option value="Intermedio">Intermedio</option>
-                    <option value="Premium">Premium</option>
+                    <option value="Fibra 100 Mb">Fibra 100 Mb</option>
+                    <option value="Fibra 300 Mb">Fibra 300 Mb</option>
+                    <option value="Fibra 500 Mb">Fibra 500 Mb</option>
+                    <option value="Fibra 1 Gb">Fibra 1 Gb</option>
                   </select>
                 </div>
                 <div className="form-group">
@@ -179,7 +180,7 @@ const ventasTable = () => {
                     <option value="">Seleccione...</option>
                     <option value="Pendiente">Pendiente</option>
                     <option value="Instalado">Instalado</option>
-                    <option value="Cancelado">Cancelado</option>
+                    <option value="En_agenda">En_agenda</option>
                   </select>
                 </div>
                 <div className="form-group">

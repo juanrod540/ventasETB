@@ -76,6 +76,17 @@
       "estrato": "4",
       "fechaRegistro": "2026-04-27",
       "id": 7
+    },
+    {
+      "nombre": "ttt",
+      "documento": "2222",
+      "telefono": "2222",
+      "email": "rfrfr@fsdfs",
+      "direccion": "ferferverv",
+      "barrio": "ververve",
+      "estrato": "2",
+      "fechaRegistro": "2026-04-28",
+      "id": 8
     }
   ],
   "ventas": [
