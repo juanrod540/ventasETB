@@ -1,20 +1,29 @@
 import { useState, useEffect } from 'react';
 import './ventas.css';
 
+// Configuración de planes según db.json
+const PLANES_CONFIG = {
+  'Fibra 100 Mb':  { precio: 44990,  incluyeTV: false, incluyeTelefonia: true  },
+  'Fibra 300 Mb':  { precio: 59990,  incluyeTV: false, incluyeTelefonia: false },
+  'Fibra 500 Mb':  { precio: 79990,  incluyeTV: true,  incluyeTelefonia: true  },
+  'Fibra 1 Gb':    { precio: 109990, incluyeTV: true,  incluyeTelefonia: false },
+};
+
 const ventasTable = () => {
   const [ventas, setVentas] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     clienteId: '',
-    Plan: '',
-    Precio: '',
-    incluyeTV: '',
-    incluyeTelefonia: '',
+    plan: '',
+    precio: '',
+    incluyeTV: false,
+    incluyeTelefonia: false,
     fechaVenta: new Date().toISOString().split('T')[0],
     fechaInstalacion: '',
-    Estado: '',
-    Asesor: '',
+    estado: '',
+    asesor: '',
   });
+  const [clienteInfo, setClienteInfo] = useState({ nombre: '', encontrado: null });
   const API_URL = "http://localhost:3002";
 
   useEffect(() => {
@@ -35,9 +44,41 @@ const ventasTable = () => {
 
     cargarDatos();
   }, []);
+  const buscarCliente = async (id) => {
+    if (!id) {
+      setClienteInfo({ nombre: '', encontrado: null });
+      return;
+    }
+    try {
+      const res = await fetch(`${API_URL}/clientes/${id}`);
+      if (res.ok) {
+        const cliente = await res.json();
+        setClienteInfo({ nombre: cliente.nombre, encontrado: true });
+      } else {
+        setClienteInfo({ nombre: '', encontrado: false });
+      }
+    } catch {
+      setClienteInfo({ nombre: '', encontrado: false });
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    if (name === 'clienteId') {
+      setFormData(prev => ({ ...prev, clienteId: value }));
+      buscarCliente(value);
+    } else if (name === 'plan' && PLANES_CONFIG[value]) {
+      const plan = PLANES_CONFIG[value];
+      setFormData(prev => ({
+        ...prev,
+        plan: value,
+        precio: plan.precio,
+        incluyeTV: plan.incluyeTV,
+        incluyeTelefonia: plan.incluyeTelefonia,
+      }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -54,15 +95,16 @@ const ventasTable = () => {
         setIsModalOpen(false);
         setFormData({
           clienteId: '',
-          Plan: '',
-          Precio: '',
-          incluyeTV: '',
-          incluyeTelefonia: '',
+          plan: '',
+          precio: '',
+          incluyeTV: false,
+          incluyeTelefonia: false,
           fechaVenta: new Date().toISOString().split('T')[0],
           fechaInstalacion: '',
-          Estado: '',
-          Asesor: '',
+          estado: '',
+          asesor: '',
         });
+        setClienteInfo({ nombre: '', encontrado: null });
       } else {
         console.error("Error al guardar el cliente");
       }
@@ -125,38 +167,62 @@ const ventasTable = () => {
             <form onSubmit={handleSubmit} className="clientes-form">
               <div className="form-group">
                 <label>ID del Cliente</label>
-                <input type="text" name="clienteId" value={formData.clienteId} onChange={handleChange} required placeholder="Ej: CL-123" />
+                <input type="number" name="clienteId" value={formData.clienteId} onChange={handleChange} required placeholder="Ej: 1, 2, 3..." />
+                {clienteInfo.encontrado === true && (
+                  <span style={{ display: 'block', marginTop: '6px', color: '#22c55e', fontWeight: '600', fontSize: '0.9rem' }}>
+                    {clienteInfo.nombre}
+                  </span>
+                )}
+                {clienteInfo.encontrado === false && (
+                  <span style={{ display: 'block', marginTop: '6px', color: '#ef4444', fontWeight: '600', fontSize: '0.9rem' }}>
+                    Cliente no encontrado
+                  </span>
+                )}
               </div>
 
               <div className="form-row">
                 <div className="form-group">
                   <label>Plan</label>
-                  <select name="Plan" value={formData.Plan} onChange={handleChange} required>
+                  <select name="plan" value={formData.plan} onChange={handleChange} required>
                     <option value="">Seleccione un plan...</option>
-                    <option value="Fibra 100 Mb">Fibra 100 Mb</option>
-                    <option value="Fibra 300 Mb">Fibra 300 Mb</option>
-                    <option value="Fibra 500 Mb">Fibra 500 Mb</option>
-                    <option value="Fibra 1 Gb">Fibra 1 Gb</option>
+                    {Object.keys(PLANES_CONFIG).map(plan => (
+                      <option key={plan} value={plan}>{plan}</option>
+                    ))}
                   </select>
                 </div>
                 <div className="form-group">
                   <label>Precio</label>
-                  <input type="number" name="Precio" value={formData.Precio} onChange={handleChange} required />
+                  <input
+                    type="number"
+                    name="precio"
+                    value={formData.precio}
+                    onChange={handleChange}
+                    readOnly={!!formData.plan}
+                    required
+                  />
                 </div>
               </div>
 
               <div className="form-row" style={{ display: 'flex', gap: '20px', padding: '10px 0' }}>
                 <div className="form-group-checkbox">
                   <label>
-                    <input type="checkbox" name="incluyeTV" checked={formData.incluyeTV === 'true' || formData.incluyeTV === true}
-                      onChange={(e) => setFormData(prev => ({ ...prev, incluyeTV: e.target.checked }))}
+                    <input
+                      type="checkbox"
+                      name="incluyeTV"
+                      checked={formData.incluyeTV === true}
+                      readOnly
+                      style={{ cursor: 'not-allowed' }}
                     /> ¿Incluye TV?
                   </label>
                 </div>
                 <div className="form-group-checkbox">
                   <label>
-                    <input type="checkbox" name="incluyeTelefonia" checked={formData.incluyeTelefonia === 'true' || formData.incluyeTelefonia === true}
-                      onChange={(e) => setFormData(prev => ({ ...prev, incluyeTelefonia: e.target.checked }))}
+                    <input
+                      type="checkbox"
+                      name="incluyeTelefonia"
+                      checked={formData.incluyeTelefonia === true}
+                      readOnly
+                      style={{ cursor: 'not-allowed' }}
                     /> ¿Incluye Telefonía?
                   </label>
                 </div>
@@ -176,18 +242,18 @@ const ventasTable = () => {
               <div className="form-row">
                 <div className="form-group">
                   <label>Estado</label>
-                  <select name="Estado" value={formData.Estado} onChange={handleChange} required>
+                  <select name="estado" value={formData.estado} onChange={handleChange} required>
                     <option value="">Seleccione...</option>
-                    <option value="Pendiente">Pendiente</option>
-                    <option value="Instalado">Instalado</option>
-                    <option value="En_agenda">En_agenda</option>
+                    <option value="pendiente">pendiente</option>
+                    <option value="instalado">instalado</option>
+                    <option value="en_agenda">en_agenda</option>
                   </select>
                 </div>
                 <div className="form-group">
                   <label>Asesor Responsable</label>
-                  <input type="text" name="Asesor" value={formData.Asesor} onChange={handleChange} required />
+                  <input type="text" name="asesor" value={formData.asesor} onChange={handleChange} required />
                 </div>
-              </div>
+              </div>  
 
               <button type="submit" className="primary-btn submit-btn">Guardar Venta</button>
             </form>
