@@ -93,13 +93,13 @@
     {
       "id": 1,
       "clienteId": 1,
-      "plan": "Fibra 300 Mb",
-      "precio": 59990,
-      "incluyeTV": false,
+      "plan": "Fibra 1 Gb",
+      "precio": 109990,
+      "incluyeTV": true,
       "incluyeTelefonia": false,
       "fechaVenta": "2025-04-15",
       "fechaInstalacion": "2025-04-22",
-      "estado": "instalado",
+      "estado": "pendiente",
       "asesor": "Diana Moreno"
     },
     {

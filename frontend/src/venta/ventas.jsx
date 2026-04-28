@@ -24,6 +24,11 @@ const ventasTable = () => {
     asesor: '',
   });
   const [clienteInfo, setClienteInfo] = useState({ nombre: '', encontrado: null });
+
+  // Estado para editar
+  const [editOpen, setEditOpen] = useState(false);
+  const [editData, setEditData] = useState({});
+  const [editId, setEditId] = useState(null);
   const API_URL = "http://localhost:3002";
 
   useEffect(() => {
@@ -113,6 +118,40 @@ const ventasTable = () => {
     }
   };
 
+  const abrirEditar = (venta) => {
+    setEditId(venta.id);
+    setEditData({ ...venta });
+    setEditOpen(true);
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`${API_URL}/ventas/${editId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editData),
+      });
+      if (res.ok) {
+        const actualizada = await res.json();
+        setVentas(ventas.map(v => v.id === editId ? actualizada : v));
+        setEditOpen(false);
+      }
+    } catch (error) {
+      console.error('Error al actualizar:', error);
+    }
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'plan' && PLANES_CONFIG[value]) {
+      const p = PLANES_CONFIG[value];
+      setEditData(prev => ({ ...prev, plan: value, precio: p.precio, incluyeTV: p.incluyeTV, incluyeTelefonia: p.incluyeTelefonia }));
+    } else {
+      setEditData(prev => ({ ...prev, [name]: value }));
+    }
+  };
+
   return (
     <div className="ventas-container">
       <div className="table-card">
@@ -134,6 +173,7 @@ const ventasTable = () => {
                 <th>Fecha Instalación</th>
                 <th>Estado</th>
                 <th>Asesor</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -152,12 +192,21 @@ const ventasTable = () => {
                     </span>
                   </td>
                   <td>{cargarDatos.asesor}</td>
+                  <td>
+                    <button
+                      onClick={() => abrirEditar(cargarDatos)}
+                      style={{ background: '#004c8f', color: 'white', border: 'none', borderRadius: '6px', padding: '5px 10px', cursor: 'pointer' }}
+                    >
+                      Editar
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
+      {/* Modal para agregar ventas */}
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -256,6 +305,85 @@ const ventasTable = () => {
               </div>  
 
               <button type="submit" className="primary-btn submit-btn">Guardar Venta</button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Editar Venta */}
+      {editOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button className="close-btn" onClick={() => setEditOpen(false)}>×</button>
+            <h2 className="form-title">Editar Venta #{editId}</h2>
+            <form onSubmit={handleUpdate} className="clientes-form">
+              <div className="form-group">
+                <label>ID del Cliente</label>
+                <input type="number" name="clienteId" value={editData.clienteId} onChange={handleEditChange} required />
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Plan</label>
+                  <select name="plan" value={editData.plan} onChange={handleEditChange} required>
+                    <option value="">Seleccione...</option>
+                    {Object.keys(PLANES_CONFIG).map(p => <option key={p} value={p}>{p}</option>)}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label>Precio</label>
+                  <input type="number" name="precio" value={editData.precio} readOnly />
+                </div>
+              </div>
+              <div className="form-row" style={{ display: 'flex', gap: '20px', padding: '10px 0' }}>
+                <div className="form-group-checkbox">
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="incluyeTV"
+                      checked={editData.incluyeTV === true}
+                      readOnly
+                      style={{ cursor: 'not-allowed' }}
+                    /> ¿Incluye TV?
+                  </label>
+                </div>
+                <div className="form-group-checkbox">
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="incluyeTelefonia"
+                      checked={editData.incluyeTelefonia === true}
+                      readOnly
+                      style={{ cursor: 'not-allowed' }}
+                    /> ¿Incluye Telefonía?
+                  </label>
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Fecha Venta</label>
+                  <input type="date" name="fechaVenta" value={editData.fechaVenta} onChange={handleEditChange} required />
+                </div>
+                <div className="form-group">
+                  <label>Fecha Instalación</label>
+                  <input type="date" name="fechaInstalacion" value={editData.fechaInstalacion} onChange={handleEditChange} required />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Estado</label>
+                  <select name="estado" value={editData.estado} onChange={handleEditChange} required>
+                    <option value="">Seleccione...</option>
+                    <option value="pendiente">pendiente</option>
+                    <option value="instalado">instalado</option>
+                    <option value="en_agenda">en_agenda</option>
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label>Asesor</label>
+                  <input type="text" name="asesor" value={editData.asesor} onChange={handleEditChange} required />
+                </div>
+              </div>
+              <button type="submit" className="primary-btn submit-btn">Actualizar Venta</button>
             </form>
           </div>
         </div>
