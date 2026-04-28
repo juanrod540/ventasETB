@@ -3,10 +3,10 @@ import './ventas.css';
 
 // Configuración de planes según db.json
 const PLANES_CONFIG = {
-  'Fibra 100 Mb':  { precio: 44990,  incluyeTV: false, incluyeTelefonia: true  },
-  'Fibra 300 Mb':  { precio: 59990,  incluyeTV: false, incluyeTelefonia: false },
-  'Fibra 500 Mb':  { precio: 79990,  incluyeTV: true,  incluyeTelefonia: true  },
-  'Fibra 1 Gb':    { precio: 109990, incluyeTV: true,  incluyeTelefonia: false },
+  'Fibra 100 Mb': { precio: 44990, incluyeTV: false, incluyeTelefonia: true },
+  'Fibra 300 Mb': { precio: 59990, incluyeTV: false, incluyeTelefonia: false },
+  'Fibra 500 Mb': { precio: 79990, incluyeTV: true, incluyeTelefonia: true },
+  'Fibra 1 Gb': { precio: 109990, incluyeTV: true, incluyeTelefonia: false },
 };
 
 const ventasTable = () => {
@@ -155,10 +155,25 @@ const ventasTable = () => {
 
   return (
     <div className="ventas-container">
-      <div className="table-card">
+      <div className="card">
         <div className="table-header-container">
           <h2 className="table-title">Lista de Ventas</h2>
-          <button className="secondary-btn" onClick={() => setIsModalOpen(true)}>Nueva Venta</button>
+          <div className="header-actions">
+            <div className="filter-container">
+              <label htmlFor="sort-select">Ordenar por instalación:</label>
+              <select
+                id="sort-select"
+                className="filter-select"
+                value={orden}
+                onChange={e => setOrden(e.target.value)}
+              >
+                <option value="">Sin orden</option>
+                <option value="asc">Más próxima</option>
+                <option value="desc">Más lejana</option>
+              </select>
+            </div>
+            <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>Nueva Venta</button>
+          </div>
         </div>
 
         <div className="table-responsive">
@@ -171,14 +186,7 @@ const ventasTable = () => {
                 <th>Incluye TV</th>
                 <th>Incluye Telefonía</th>
                 <th>Fecha Venta</th>
-                <th>
-                  Fecha Instalación{' '}
-                  <select value={orden} onChange={e => setOrden(e.target.value)} style={{ fontSize: '0.8rem', padding: '2px' }}>
-                    <option value="">Sin orden</option>
-                    <option value="asc">Más próxima</option>
-                    <option value="desc">Más lejana</option>
-                  </select>
-                </th>
+                <th>Fecha Instalación</th>
                 <th>Estado</th>
                 <th>Asesor</th>
                 <th>Acciones</th>
@@ -193,30 +201,35 @@ const ventasTable = () => {
                     : new Date(b.fechaInstalacion) - new Date(a.fechaInstalacion);
                 })
                 .map((cargarDatos) => (
-                <tr key={cargarDatos.id}>
-                  <td>{cargarDatos.clienteId}</td>
-                  <td className="font-medium">{cargarDatos.plan}</td>
-                  <td>{cargarDatos.precio}</td>
-                  <td><input type="checkbox" checked={cargarDatos.incluyeTV} readOnly /></td>
-                  <td><input type="checkbox" checked={cargarDatos.incluyeTelefonia} readOnly /></td>
-                  <td>{cargarDatos.fechaVenta}</td>
-                  <td>{cargarDatos.fechaInstalacion}</td>
-                  <td>
-                    <span className={`estrato-badge estrato-${cargarDatos.estado}`}>
-                      {cargarDatos.estado}
-                    </span>
-                  </td>
-                  <td>{cargarDatos.asesor}</td>
-                  <td>
-                    <button
-                      onClick={() => abrirEditar(cargarDatos)}
-                      style={{ background: '#004c8f', color: 'white', border: 'none', borderRadius: '6px', padding: '5px 10px', cursor: 'pointer' }}
-                    >
-                      Editar
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                  <tr key={cargarDatos.id}>
+                    <td>{cargarDatos.clienteId}</td>
+                    <td className="font-medium">
+                      <span className={`badge badge-plan-${cargarDatos.plan.toLowerCase().replace('fibra ', '').replace(' ', '')}`}>
+                        {cargarDatos.plan}
+                      </span>
+                    </td>
+                    <td>${Number(cargarDatos.precio).toLocaleString()}</td>
+                    <td><input type="checkbox" checked={cargarDatos.incluyeTV} readOnly /></td>
+                    <td><input type="checkbox" checked={cargarDatos.incluyeTelefonia} readOnly /></td>
+                    <td>{cargarDatos.fechaVenta}</td>
+                    <td>{cargarDatos.fechaInstalacion}</td>
+                    <td>
+                      <span className={`badge badge-${cargarDatos.estado}`}>
+                        {cargarDatos.estado.replace('_', ' ')}
+                      </span>
+                    </td>
+                    <td>{cargarDatos.asesor}</td>
+                    <td>
+                      <button
+                        onClick={() => abrirEditar(cargarDatos)}
+                        className="btn btn-outline"
+                        style={{ padding: '5px 12px', fontSize: '0.85rem' }}
+                      >
+                        Editar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
@@ -317,9 +330,9 @@ const ventasTable = () => {
                   <label>Asesor Responsable</label>
                   <input type="text" name="asesor" value={formData.asesor} onChange={handleChange} required />
                 </div>
-              </div>  
+              </div>
 
-              <button type="submit" className="primary-btn submit-btn">Guardar Venta</button>
+              <button type="submit" className="btn btn-primary submit-btn" style={{ width: '100%', marginTop: '20px' }}>Guardar Venta</button>
             </form>
           </div>
         </div>
@@ -398,7 +411,7 @@ const ventasTable = () => {
                   <input type="text" name="asesor" value={editData.asesor} onChange={handleEditChange} required />
                 </div>
               </div>
-              <button type="submit" className="primary-btn submit-btn">Actualizar Venta</button>
+              <button type="submit" className="btn btn-primary submit-btn" style={{ width: '100%', marginTop: '20px' }}>Actualizar Venta</button>
             </form>
           </div>
         </div>

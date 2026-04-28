@@ -151,30 +151,6 @@
       "asesor": "Carlos Vega"
     },
     {
-      "clienteId": "2",
-      "Plan": "Fibra 300 Mb",
-      "Precio": 59990,
-      "incluyeTV": false,
-      "incluyeTelefonia": false,
-      "fechaVenta": "2026-04-28",
-      "fechaInstalacion": "2022-11-10",
-      "Estado": "Pendiente",
-      "Asesor": "marta",
-      "id": 6
-    },
-    {
-      "clienteId": "3",
-      "Plan": "Fibra 100 Mb",
-      "Precio": 44990,
-      "incluyeTV": false,
-      "incluyeTelefonia": true,
-      "fechaVenta": "2026-04-28",
-      "fechaInstalacion": "2012-11-20",
-      "Estado": "En_agenda",
-      "Asesor": "marta",
-      "id": 7
-    },
-    {
       "clienteId": "3",
       "plan": "Fibra 500 Mb",
       "precio": 79990,
@@ -184,7 +160,7 @@
       "fechaInstalacion": "1010-10-10",
       "estado": "En_agenda",
       "asesor": "marta",
-      "id": 8
+      "id": 6
     }
   ]
 }

@@ -1,0 +1,35 @@
+.main-header {
+  background-color: var(--etb-blue);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--etb-cyan);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo-img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+}
+
+.header-info {
+  text-align: right;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.header-dept {
+  font-weight: 600;
+}
+
+.header-subtitle {
+  font-size: 0.75rem;
+  margin-top: 4px;
+}

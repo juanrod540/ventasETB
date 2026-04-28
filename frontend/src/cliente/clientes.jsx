@@ -100,10 +100,10 @@ const ClientesTable = () => {
 
   return (
     <div className="clientes-container">
-      <div className="table-card">
+      <div className="card">
         <div className="table-header-container">
           <h2 className="table-title">Lista de Clientes</h2>
-          <button className="secondary-btn" onClick={() => setIsModalOpen(true)}>Nuevo Cliente</button>
+          <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>Nuevo Cliente</button>
         </div>
         
         <div className="table-responsive">
@@ -139,7 +139,8 @@ const ClientesTable = () => {
                   <td>
                     <button
                       onClick={() => abrirEditar(cargarDatosClientes)}
-                      style={{ background: '#004c8f', color: 'white', border: 'none', borderRadius: '6px', padding: '5px 10px', cursor: 'pointer' }}
+                      className="btn btn-outline"
+                      style={{ padding: '5px 12px', fontSize: '0.85rem' }}
                     >
                       Editar
                     </button>
@@ -208,7 +209,7 @@ const ClientesTable = () => {
                 <input type="date" name="fechaRegistro" value={formData.fechaRegistro} onChange={handleChange} required />
               </div>
 
-              <button type="submit" className="primary-btn submit-btn">Guardar Cliente</button>
+               <button type="submit" className="btn btn-primary submit-btn" style={{ width: '100%', marginTop: '20px' }}>Guardar Cliente</button>
             </form>
           </div>
         </div>
@@ -264,7 +265,7 @@ const ClientesTable = () => {
                 <label>Fecha de Registro</label>
                 <input type="date" name="fechaRegistro" value={editData.fechaRegistro || ''} onChange={handleEditChange} required />
               </div>
-              <button type="submit" className="primary-btn submit-btn">Actualizar Cliente</button>
+               <button type="submit" className="btn btn-primary submit-btn" style={{ width: '100%', marginTop: '20px' }}>Actualizar Cliente</button>
             </form>
           </div>
         </div>

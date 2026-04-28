@@ -8,19 +8,19 @@ const Home = () => {
         <div className="home-container">
             <div className="hero-content">
                 <h1 className="hero-title">
-                    Bienvenido a el portal de ventas de ETB
+                    Bienvenido al portal de ventas de ETB
                 </h1>
                 <p className="hero-subtitle">
                     Gestiona tus clientes, planes de televisión, internet y telefonía con nuestra plataforma de ventas rápida, moderna e intuitiva.
                 </p>
                 <div className="hero-actions">
-                    <button className="primary-btn" onClick={() => navigate('/ventas')}>Gestionar Ventas</button>
-                    <button className="secondary-btn" onClick={() => navigate('/clientes')}>Ver Clientes</button>
+                    <button className="btn btn-primary" onClick={() => navigate('/ventas')}>Gestionar Ventas</button>
+                    <button className="btn btn-accent" onClick={() => navigate('/clientes')}>Ver Clientes</button>
                 </div>
             </div>
-            <div className="feature-card">
-                <h3>Bienvenido a el portal de ventas de ETB</h3>
-                <p>Aquí podras gestionar tus clientes, planes de internet con nuestra plataforma de ventas rápida, moderna e intuitiva.</p>
+            <div className="card feature-card">
+                <h3>Acceso Rápido</h3>
+                <p>Aquí podrás gestionar tus clientes y planes de internet con nuestra plataforma de ventas rápida, moderna e intuitiva.</p>
             </div>
         </div>
     );
